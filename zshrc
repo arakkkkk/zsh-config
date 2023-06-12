@@ -17,6 +17,7 @@ fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 
 # alias
 alias vi='nvim'
+alian gu='git add .'
 alias gu='git push'
 alias gp='git pull'
 alias gl='git log'
