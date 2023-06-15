@@ -10,14 +10,24 @@ prompt pure
 plugins=( 
     zsh-autosuggestions
     zsh-syntax-highlighting
-    fzf-zsh-plugin
+    zsh-fzf-history-search
 )
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+export HISTFILE=$HOME/.zsh_history
+export HISTSIZE=100000        # メモリ上の履歴リストに保存されるイベントの最大数
+export SAVEHIST=100000        # 履歴ファイルに保存されるイベントの最大数
+
+setopt hist_expire_dups_first # 履歴を切り詰める際に、重複する最も古いイベントから消す
+setopt hist_ignore_all_dups   # 履歴が重複した場合に古い履歴を削除する
+setopt hist_ignore_dups       # 前回のイベントと重複する場合、履歴に保存しない
+setopt hist_save_no_dups      # 履歴ファイルに書き出す際、新しいコマンドと重複する古いコマンドは切り捨てる
+setopt share_history          # 全てのセッションで履歴を共有する
 
 # alias
 alias vi='nvim'
-alian gu='git add .'
+alias gu='git add .'
 alias gu='git push'
 alias gp='git pull'
 alias gl='git log'
@@ -31,6 +41,7 @@ alias dc='docker compose'
 # oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
+
 #ghq
 function ghq-fzf() {
   local src=$(ghq list | fzf --preview "ls -laTp $(ghq root)/{} | tail -n+4 | awk '{print \$9\"/\"\$6\"/\"\$7 \" \" \$10}'")
@@ -42,10 +53,20 @@ function ghq-fzf() {
 }
 zle -N ghq-fzf
 bindkey '^g' ghq-fzf
+bindkey '^t' fzf_completion
 
-function select-history() {
-  BUFFER=$(history -n -r 1 | fzf --no-sort +m --query "$LBUFFER" --prompt="History > ")
-  CURSOR=$#BUFFER
-}
-zle -N select-history
-bindkey '^e' select-history
+# for fzf-tab-completion
+source ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/fzf-tab-completion/zsh/fzf-zsh-completion.sh
+# basic file preview for ls (you can replace with something more sophisticated than head)
+zstyle ':completion::*:ls::*' fzf-completion-opts --preview='eval head {1}'
+# preview when completing env vars (note: only works for exported variables)
+# eval twice, first to unescape the string, second to expand the $variable
+zstyle ':completion::*:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' fzf-completion-opts --preview='eval eval echo {1}'
+# preview a `git status` when completing git add
+zstyle ':completion::*:git::git,add,*' fzf-completion-opts --preview='git -c color.status=always status --short'
+# if other subcommand to git is given, show a git diff or git log
+zstyle ':completion::*:git::*,[a-z]*' fzf-completion-opts --preview='
+eval set -- {+1}
+for arg in "$@"; do
+    { git diff --color=always -- "$arg" | git log --color=always "$arg" } 2>/dev/null
+done'
