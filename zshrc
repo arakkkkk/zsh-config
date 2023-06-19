@@ -27,7 +27,7 @@ setopt share_history          # 全てのセッションで履歴を共有する
 
 # alias
 alias vi='nvim'
-alias gu='git add .'
+alias ga='git add .'
 alias gu='git push'
 alias gp='git pull'
 alias gl='git log'
@@ -41,6 +41,7 @@ alias dc='docker compose'
 # oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
+echo 'eval "$(pyenv init --path)"' >> ~/.zshrc
 
 #ghq
 function ghq-fzf() {
@@ -70,3 +71,11 @@ eval set -- {+1}
 for arg in "$@"; do
     { git diff --color=always -- "$arg" | git log --color=always "$arg" } 2>/dev/null
 done'
+eval "$(pyenv init --path)"
+eval "$(pyenv init --path)"
+eval "$(pyenv init --path)"
+eval "$(pyenv init --path)"
+eval "$(pyenv init --path)"
+eval "$(pyenv init --path)"
+eval "$(pyenv init --path)"
+eval "$(pyenv init --path)"
