@@ -21,7 +21,6 @@ fi
 source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
-zinit delete --clean
 
 # Load a few important annexes, without Turbo
 # (this is currently required for annexes)
@@ -31,18 +30,17 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-patch-dl \
     zdharma-continuum/zinit-annex-rust
 
-### End of Zinit's installer chunk
+## End of Zinit's installer chunk
 
 # zinit plugins
 zinit light sindresorhus/pure
 zinit light zsh-users/zsh-autosuggestions
-# zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-syntax-highlighting
-zinit light lincheney/fzf-tab-completion
 zinit light joshskidmore/zsh-fzf-history-search
-# zinit light marlonrichert/zsh-autocomplete 
+zinit light marlonrichert/zsh-autocomplete 
 
-# alias
+# # alias
 alias vi='nvim'
 alias g='git'
 alias ga='git add .'
@@ -56,8 +54,7 @@ alias lg='lazygit'
 alias d='docker'
 alias dc='docker compose'
 
-
-#ghq
+# # #ghq
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 function ghq-fzf() {
   local src=$(ghq list | fzf --preview "ls -laTp $(ghq root)/{} | tail -n+4 | awk '{print \$9\"/\"\$6\"/\"\$7 \" \" \$10}'")
@@ -69,23 +66,6 @@ function ghq-fzf() {
 }
 zle -N ghq-fzf
 bindkey '^g' ghq-fzf
-bindkey '^t' fzf_completion
 bindkey '^r' fzf_history_search
 
-# for fzf-tab-completion
-source ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/fzf-tab-completion/zsh/fzf-zsh-completion.sh
-# basic file preview for ls (you can replace with something more sophisticated than head)
-zstyle ':completion::*:ls::*' fzf-completion-opts --preview='eval head {1}'
-# preview when completing env vars (note: only works for exported variables)
-# eval twice, first to unescape the string, second to expand the $variable
-zstyle ':completion::*:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' fzf-completion-opts --preview='eval eval echo {1}'
-# preview a `git status` when completing git add
-zstyle ':completion::*:git::git,add,*' fzf-completion-opts --preview='git -c color.status=always status --short'
-# if other subcommand to git is given, show a git diff or git log
-zstyle ':completion::*:git::*,[a-z]*' fzf-completion-opts --preview='
-eval set -- {+1}
-for arg in "$@"; do
-    { git diff --color=always -- "$arg" | git log --color=always "$arg" } 2>/dev/null
-done'
-
-
+zinit delete --clean
