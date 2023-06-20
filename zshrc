@@ -39,6 +39,7 @@ zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light lincheney/fzf-tab-completion
 zinit light joshskidmore/zsh-fzf-history-search
+# zinit light marlonrichert/zsh-autocomplete 
 
 # alias
 alias vi='nvim'
@@ -70,7 +71,7 @@ bindkey '^g' ghq-fzf
 bindkey '^t' fzf_completion
 bindkey '^r' fzf_history_search
 
-# for fzf-tab-completion
+for fzf-tab-completion
 source ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/fzf-tab-completion/zsh/fzf-zsh-completion.sh
 # basic file preview for ls (you can replace with something more sophisticated than head)
 zstyle ':completion::*:ls::*' fzf-completion-opts --preview='eval head {1}'
@@ -86,4 +87,4 @@ for arg in "$@"; do
     { git diff --color=always -- "$arg" | git log --color=always "$arg" } 2>/dev/null
 done'
 
-
+zinit delete --clean
