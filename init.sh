@@ -4,7 +4,7 @@ if [ `which zsh` != "/usr/bin/zsh" ] ; then
   sudo apt install -y zsh
 fi
 
-ln -sv ./zshrc ~/.zshrc
+ln -sv zshrc ~/.zshrc
 
 # fzf
 if [ `which fzf` != "/usr/bin/fzf" ] ; then
