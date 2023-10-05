@@ -9,10 +9,6 @@ setopt hist_save_no_dups      # 履歴ファイルに書き出す際、新しい
 setopt share_history          # 全てのセッションで履歴を共有する
 # For pyenv
 eval "$(pyenv init --path)"
-# For goenv
-export GOENV_ROOT=$HOME/.goenv
-export PATH=$GOENV_ROOT/bin:$PATH
-eval "$(goenv init -)"
 
 
 ### Added by Zinit's installer
@@ -59,6 +55,7 @@ alias gc='git checkout'
 alias lg='lazygit'
 alias d='docker'
 alias dc='docker compose'
+alias tt='taskwarrior-tui'
 
 # # #ghq
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
