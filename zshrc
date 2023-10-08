@@ -10,9 +10,9 @@ setopt share_history          # 全てのセッションで履歴を共有する
 # For pyenv
 eval "$(pyenv init --path)"
 # For goenv
-export GOENV_ROOT=$HOME/.goenv
-export PATH=$GOENV_ROOT/bin:$PATH
-eval "$(goenv init -)"
+export GOPATH=$HOME/go
+export GOBIN=$GOPATH/bin
+export PATH=$PATH:$GOBIN
 
 
 ### Added by Zinit's installer
